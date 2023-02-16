@@ -47,7 +47,8 @@ public class Scanner
             tokenIdentifiers.clear();
             tokenValues.clear();
             index = 0;
-            tokenizeLine();
+            while (tokenIdentifiers.isEmpty())
+                tokenizeLine();
         }
     }
 

@@ -11,5 +11,6 @@ public class Program
             System.out.println(tokenizer.getToken());
             tokenizer.skipToken();
         }
+        System.out.println(tokenizer.getToken());
     }
 }
