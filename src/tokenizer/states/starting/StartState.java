@@ -8,16 +8,12 @@ import tokenizer.states.accepting.EqualsFinalState;
 import tokenizer.states.accepting.IdentifierFinalState;
 import tokenizer.states.accepting.IntegerFinalState;
 import tokenizer.states.extra.ErrorState;
-import tokenizer.states.reservedwords.E_State;
-import tokenizer.states.reservedwords.I_State;
-import tokenizer.states.reservedwords.W_State;
-import tokenizer.states.reservedwords.begin.B_E_State;
-import tokenizer.states.reservedwords.loop.L_O_State;
-import tokenizer.states.reservedwords.program.P_R_State;
-import tokenizer.states.reservedwords.read.R_E_State;
-import tokenizer.states.reservedwords.then.T_H_State;
-import tokenizer.states.specialsymbols.And_Final_State;
-import tokenizer.states.specialsymbols.Or_Final_State;
+import tokenizer.states.reservedwords.sequences.*;
+import tokenizer.states.reservedwords.startLetters.EStartLetterState;
+import tokenizer.states.reservedwords.startLetters.IStartLetterState;
+import tokenizer.states.reservedwords.startLetters.WStartLetterState;
+import tokenizer.states.specialsymbols.AndStateSequence;
+import tokenizer.states.specialsymbols.OrStateSequence;
 
 public class StartState extends AbstractState
 {
@@ -41,25 +37,25 @@ public class StartState extends AbstractState
         switch (nextChar)
         {
             case 'p':
-                return new P_R_State(nextChar, secondNextChar);
+                return new ProgramStateSequence(nextChar, secondNextChar);
             case 'b':
-                return new B_E_State(nextChar, secondNextChar);
+                return new BeginStateSequence(nextChar, secondNextChar);
             case 't':
-                return new T_H_State(nextChar, secondNextChar);
+                return new ThenStateSequence(nextChar, secondNextChar);
             case 'l':
-                return new L_O_State(nextChar, secondNextChar);
+                return new LoopStateSequence(nextChar, secondNextChar);
             case 'r':
-                return new R_E_State(nextChar, secondNextChar);
+                return new ReadStateSequence(nextChar, secondNextChar);
             case 'e':
-                return new E_State(nextChar, secondNextChar);
+                return new EStartLetterState(nextChar, secondNextChar);
             case 'w':
-                return new W_State(nextChar, secondNextChar);
+                return new WStartLetterState(nextChar, secondNextChar);
             case 'i':
-                return new I_State(nextChar, secondNextChar);
+                return new IStartLetterState(nextChar, secondNextChar);
             case '&':
-                return new And_Final_State(nextChar, secondNextChar);
+                return new AndStateSequence(nextChar, secondNextChar);
             case '|':
-                return new Or_Final_State(nextChar, secondNextChar);
+                return new OrStateSequence(nextChar, secondNextChar);
             default:
                 if (Utils.isSpecialSymbol(nextChar))
                     return new DefaultFinalState(nextChar, secondNextChar);

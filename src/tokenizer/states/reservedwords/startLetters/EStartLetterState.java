@@ -1,13 +1,14 @@
-package tokenizer.states.reservedwords;
+package tokenizer.states.reservedwords.startLetters;
 
 import tokenizer.states.AbstractState;
 import tokenizer.states.IState;
 import tokenizer.states.extra.ErrorState;
-import tokenizer.states.reservedwords.elseWord.L_S_State;
+import tokenizer.states.reservedwords.sequences.ElseStateSequence;
+import tokenizer.states.reservedwords.sequences.EndStateSequence;
 
-public class E_State extends AbstractState
+public class EStartLetterState extends AbstractState
 {
-    public E_State (char prevChar, char nextChar)
+    public EStartLetterState (char prevChar, char nextChar)
     {
         super(prevChar, nextChar);
     }
@@ -15,9 +16,9 @@ public class E_State extends AbstractState
     public IState nextState (char secondNextChar)
     {
         if (nextChar == 'l')
-            return new L_S_State(nextChar, secondNextChar);
+            return new ElseStateSequence(nextChar, secondNextChar);
         else if (nextChar == 'n')
-            return new _D_State(nextChar, secondNextChar);
+            return new EndStateSequence(nextChar, secondNextChar);
         else {
             return new ErrorState();
         }

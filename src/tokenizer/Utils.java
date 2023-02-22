@@ -1,5 +1,6 @@
 package tokenizer;
 
+// A collection of useful methods that are used throughout the tokenizer package
 public class Utils
 {
     // Returns whether [c] is a whitespace character that is recognized in the Core language
@@ -41,7 +42,7 @@ public class Utils
     }
 
     // Returns whether [c] is unrecognized in the Core language
-    public static boolean isUnrecognizedChar (char c)
+    public static boolean isUnrecognized (char c)
     {
         return !isDigit(c) && !isUppercaseLetter(c) && !isLowercaseLetter(c) && !isSpecialSymbol(c) && !isWhitespace(c);
     }
@@ -49,13 +50,13 @@ public class Utils
     // Returns the identifier of [token], given that [token] is a valid token in the Core language
     public static int getTokenIdentifier (String token)
     {
-        // Check to see if the token is an identifier or a digit - we don't know its exact value
-        if (isUppercaseLetter(token.charAt(0)))
-            return 32;
-        else if (isDigit(token.charAt(0)))
+        // Check to see if the token is an identifier or a digit - we don't need to know its exact value
+        if (isDigit(token.charAt(0)))
             return 31;
+        else if (isUppercaseLetter(token.charAt(0)))
+            return 32;
 
-        // For other tokens, we do know their exact value, so we can just check for that
+        // For other tokens, we can check their exact value to determine what they are
         switch (token)
         {
             case "program":
@@ -120,7 +121,7 @@ public class Utils
                 return 30;
             default:
                 // If we get to here, something has gone terribly wrong :(
-                return -1;
+                return 34;
         }
     }
 }

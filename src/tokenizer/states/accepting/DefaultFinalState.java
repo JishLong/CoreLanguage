@@ -15,7 +15,7 @@ public class DefaultFinalState extends AbstractState
 
     public IState nextState(char secondNextChar)
     {
-        if (Utils.isUnrecognizedChar(nextChar))
+        if (Utils.isUnrecognized(nextChar))
             return new ErrorState();
         else if (Utils.isLowercaseLetter(prevChar) && Utils.isDigit(nextChar))
             return new ErrorState();
@@ -34,7 +34,7 @@ public class DefaultFinalState extends AbstractState
 
     public boolean isTokenFinished()
     {
-        if (Utils.isUnrecognizedChar(nextChar))
+        if (Utils.isUnrecognized(nextChar))
             return false;
         else if (Utils.isLowercaseLetter(prevChar) && Utils.isDigit(nextChar))
             return false;

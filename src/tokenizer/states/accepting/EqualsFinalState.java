@@ -15,7 +15,7 @@ public class EqualsFinalState extends AbstractState
 
     public IState nextState(char secondNextChar)
     {
-        if (Utils.isUnrecognizedChar(nextChar))
+        if (Utils.isUnrecognized(nextChar))
             return new ErrorState();
         else if (nextChar == '=')
             return new DefaultFinalState(nextChar, secondNextChar);
@@ -30,7 +30,7 @@ public class EqualsFinalState extends AbstractState
 
     public boolean isTokenFinished()
     {
-        if (Utils.isUnrecognizedChar(nextChar))
+        if (Utils.isUnrecognized(nextChar))
             return false;
         else if (nextChar == '=')
             return false;

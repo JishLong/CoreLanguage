@@ -15,7 +15,7 @@ public class IdentifierFinalState extends AbstractState
 
     public IState nextState(char secondNextChar)
     {
-        if (Utils.isUnrecognizedChar(nextChar) || Utils.isLowercaseLetter(nextChar))
+        if (Utils.isUnrecognized(nextChar) || Utils.isLowercaseLetter(nextChar))
             return new ErrorState();
         if (Utils.isSpecialSymbol(nextChar) || Utils.isWhitespace(nextChar))
             return new StartState(prevChar, nextChar).nextState(secondNextChar);
@@ -31,7 +31,7 @@ public class IdentifierFinalState extends AbstractState
     @Override
     public boolean isTokenFinished()
     {
-        if (Utils.isUnrecognizedChar(nextChar) || Utils.isLowercaseLetter(nextChar))
+        if (Utils.isUnrecognized(nextChar) || Utils.isLowercaseLetter(nextChar))
             return false;
         if (Utils.isSpecialSymbol(nextChar) || Utils.isWhitespace(nextChar))
             return true;
