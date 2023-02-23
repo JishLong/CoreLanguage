@@ -40,14 +40,17 @@ public class Tokenizer
     // Returns a token identifier between 1 and 34
     public int getToken ()
     {
+        // If the file doesn't contain anything, we'll just say we're at the EOF
         int tokenIdentifier = 33;
         if (!tokenIdentifiers.isEmpty())
             tokenIdentifier = tokenIdentifiers.get(index);
 
+        // If we have an error token, we'll print a helpful error message
         if (tokenIdentifier == 34)
         {
             System.out.println("Error: \""+tokenValues.get(index)+"\" is not a token");
         }
+
         return tokenIdentifier;
     }
 
@@ -62,7 +65,7 @@ public class Tokenizer
         if (currentToken > 0 && currentToken < 33)
             index++;
 
-        // If we're at the line's last token, we'll move on
+        // If we've passed the line's last token, we'll move on
         if (index == tokenIdentifiers.size())
         {
             tokenIdentifiers.clear();
@@ -80,6 +83,7 @@ public class Tokenizer
     {
         if (tokenIdentifiers.get(index) == 31)
             return Integer.parseInt(tokenValues.get(index));
+
         else
         {
             System.err.println("Error: call to intVal() cannot return integer value of non-integer token");
@@ -146,12 +150,14 @@ public class Tokenizer
             if (!Utils.isWhitespace(line.charAt(i)))
                 currentToken += line.charAt(i);
 
+            // If we have a finished token, add it to the lists
             if (currentState.isTokenFinished())
             {
                 tokenIdentifiers.add(Utils.getTokenIdentifier(currentToken));
                 tokenValues.add(currentToken);
                 currentToken = "";
             }
+            // If we're in an error state OR we're at the end of a line with a non-token, we've reached an error
             else if (currentState.isErrorState() || (i == line.length() - 1 && !currentToken.isEmpty()))
             {
                 tokenIdentifiers.add(34);

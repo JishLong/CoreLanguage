@@ -2,7 +2,7 @@ package tokenizer.states.reservedwords.startLetters;
 
 import tokenizer.states.AbstractState;
 import tokenizer.states.IState;
-import tokenizer.states.extra.ErrorState;
+import tokenizer.states.error.ErrorState;
 import tokenizer.states.reservedwords.sequences.ElseStateSequence;
 import tokenizer.states.reservedwords.sequences.EndStateSequence;
 
@@ -24,7 +24,6 @@ public class EStartLetterState extends AbstractState
         }
     }
 
-    @Override
     public boolean isTokenFinished()
     {
         return false;

@@ -1,4 +1,4 @@
-package tokenizer.states.extra;
+package tokenizer.states.error;
 
 import tokenizer.states.AbstractState;
 import tokenizer.states.IState;
@@ -13,11 +13,6 @@ public class ErrorState extends AbstractState
     public IState nextState(char secondNextChar)
     {
         return this;
-    }
-
-    public boolean isFinalState()
-    {
-        return false;
     }
 
     public boolean isTokenFinished()

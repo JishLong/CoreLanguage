@@ -1,5 +1,6 @@
 package tokenizer.states;
 
+// A representation of a single DFA state
 public abstract class AbstractState implements IState
 {
     /* [prevChar]: the char that caused the transition from the last state to this state

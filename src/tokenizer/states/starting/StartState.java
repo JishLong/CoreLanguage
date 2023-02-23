@@ -3,18 +3,13 @@ package tokenizer.states.starting;
 import tokenizer.Utils;
 import tokenizer.states.AbstractState;
 import tokenizer.states.IState;
-import tokenizer.states.accepting.DefaultFinalState;
-import tokenizer.states.accepting.EqualsFinalState;
-import tokenizer.states.accepting.IdentifierFinalState;
-import tokenizer.states.accepting.IntegerFinalState;
-import tokenizer.states.extra.ErrorState;
+import tokenizer.states.accepting.*;
+import tokenizer.states.error.ErrorState;
 import tokenizer.states.reservedwords.sequences.*;
-import tokenizer.states.reservedwords.startLetters.EStartLetterState;
-import tokenizer.states.reservedwords.startLetters.IStartLetterState;
-import tokenizer.states.reservedwords.startLetters.WStartLetterState;
-import tokenizer.states.specialsymbols.AndStateSequence;
-import tokenizer.states.specialsymbols.OrStateSequence;
+import tokenizer.states.reservedwords.startLetters.*;
+import tokenizer.states.specialsymbols.*;
 
+// The (only) starting state in the DFA representation
 public class StartState extends AbstractState
 {
     public StartState (char prevChar, char nextChar)
@@ -27,12 +22,14 @@ public class StartState extends AbstractState
         if (Utils.isWhitespace(nextChar))
             return new StartState(nextChar, secondNextChar);
 
-        else if (Utils.isUppercaseLetter(nextChar))
-            return new IdentifierFinalState(nextChar, secondNextChar);
-        else if (Utils.isDigit(nextChar))
-            return new IntegerFinalState(nextChar, secondNextChar);
-        else if (nextChar == '!' || nextChar == '=' || nextChar == '<' || nextChar == '>')
-            return new EqualsFinalState(nextChar, secondNextChar);
+        if (Utils.isUppercaseLetter(nextChar))
+            return new IdentifierAcceptingState(nextChar, secondNextChar);
+
+        if (Utils.isDigit(nextChar))
+            return new IntegerAcceptingState(nextChar, secondNextChar);
+
+        if (nextChar == '!' || nextChar == '=' || nextChar == '<' || nextChar == '>')
+            return new EqualsAcceptingState(nextChar, secondNextChar);
 
         switch (nextChar)
         {
@@ -58,13 +55,12 @@ public class StartState extends AbstractState
                 return new OrStateSequence(nextChar, secondNextChar);
             default:
                 if (Utils.isSpecialSymbol(nextChar))
-                    return new DefaultFinalState(nextChar, secondNextChar);
-                else
-                    return new ErrorState();
+                    return new DefaultAcceptingState(nextChar, secondNextChar);
         }
+
+        return new ErrorState();
     }
 
-    @Override
     public boolean isTokenFinished()
     {
         return false;
