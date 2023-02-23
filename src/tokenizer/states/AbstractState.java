@@ -1,9 +1,11 @@
 package tokenizer.states;
 
-import tokenizer.Utils;
-
+// A representation of a single DFA state
 public abstract class AbstractState implements IState
 {
+    /* [prevChar]: the char that caused the transition from the last state to this state
+       [nextChar]: the char that comes after this state (the next state's [prevState] )
+     */
     protected final char prevChar, nextChar;
 
     protected AbstractState (char prevChar, char nextChar)

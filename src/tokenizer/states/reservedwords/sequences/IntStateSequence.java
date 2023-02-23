@@ -1,0 +1,11 @@
+package tokenizer.states.reservedwords.sequences;
+
+import tokenizer.states.AbstractStateSequence;
+
+public class IntStateSequence extends AbstractStateSequence
+{
+    public IntStateSequence (char prevChar, char nextChar)
+    {
+        super(prevChar, nextChar, "nt");
+    }
+}
