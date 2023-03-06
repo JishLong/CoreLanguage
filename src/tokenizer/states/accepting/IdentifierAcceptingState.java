@@ -18,7 +18,7 @@ public class IdentifierAcceptingState extends AbstractState
         if (Utils.isSpecialSymbol(nextChar) || Utils.isWhitespace(nextChar))
             return new StartState(prevChar, nextChar).nextState(secondNextChar);
 
-        if (Utils.isUnrecognized(nextChar))
+        if (Utils.isUnrecognized(nextChar) || Utils.isLowercaseLetter(nextChar))
             return new ErrorState();
 
         return new IdentifierAcceptingState(nextChar, secondNextChar);
