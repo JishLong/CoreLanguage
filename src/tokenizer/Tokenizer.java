@@ -109,6 +109,21 @@ public class Tokenizer
         return "";
     }
 
+    // Returns the string value of the current token
+    public String tokenVal ()
+    {
+        if (tokenIdentifiers.get(index) != 33)
+            return tokenValues.get(index);
+        else
+        {
+            System.err.println("Error: call to tokenVal() cannot return value of EOF token");
+            System.exit(1);
+        }
+
+        // Just in case :)
+        return "";
+    }
+
     // Converts the contents of one file line into a list of tokens in the Core language
     private void tokenizeLine ()
     {
