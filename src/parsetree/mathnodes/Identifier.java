@@ -38,7 +38,7 @@ public class Identifier extends AbstractParseTreeNode implements IMathNode
             if (idName.equals(name))
             {
                 if (declaringEnabled)
-                    Utils.throwUnexpTokenError(name, "identifier "+name+" has already been declared", false);
+                    Utils.throwExistIdError(name);
                 else
                     return;
             }
@@ -46,8 +46,7 @@ public class Identifier extends AbstractParseTreeNode implements IMathNode
 
         // If an identifier is being used in the program, make sure it has been declared
         if (!declaringEnabled)
-            Utils.throwUnexpTokenError(name, "identifier "+name+" has not been declared",
-                    false);
+            Utils.throwUndecIdError(name);
 
         declaredIds.put(name, this);
     }

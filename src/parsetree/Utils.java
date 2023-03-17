@@ -44,6 +44,12 @@ public class Utils
         System.exit(1);
     }
 
+    public static void throwExistIdError (String id)
+    {
+        System.err.println("Error: identifier \""+id+"\" has already been declared");
+        System.exit(1);
+    }
+
     public static void throwUninitIdError (String id)
     {
         System.err.println("Error: identifier \""+id+"\" has not been initialized");
