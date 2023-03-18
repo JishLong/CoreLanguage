@@ -1,16 +1,16 @@
 package parsetree.intermednodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
 import parsetree.Utils;
 
-public class StmtNode extends AbstractParseTreeNode implements IIntermediateNode
+public class StmtNode extends ErrorCheckingNode implements IIntermediateNode
 {
     private IIntermediateNode actualStatement;
 
-    StmtNode ()
+    public StmtNode ()
     {
-        super();
+        super("statement");
 
         actualStatement = null;
     }
@@ -35,19 +35,25 @@ public class StmtNode extends AbstractParseTreeNode implements IIntermediateNode
                 actualStatement = new OutNode();
                 break;
             default:
-                Utils.throwUnexpTokenError(tokenizer.tokenVal(), null, false);
+                Utils.throwUnexpTokenError(tokenizer, null, false);
         }
 
         actualStatement.parse();
+
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         actualStatement.print();
     }
 
     public void execute ()
     {
+        super.execute();
+
         actualStatement.execute();
     }
 }

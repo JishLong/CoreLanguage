@@ -1,8 +1,10 @@
 package parsetree;
 
-public interface IMathNode extends IParseTreeNode
+public interface IMathNode
 {
     void parse();
 
-    int eval();
+    void print();
+
+    int evaluate();
 }

@@ -3,14 +3,14 @@ package parsetree.intermednodes;
 import parsetree.*;
 import parsetree.boolnodes.CondNode;
 
-public class LoopNode extends AbstractParseTreeNode implements IIntermediateNode
+public class LoopNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    private IBoolNode cond;
+    private ILogicNode cond;
     private IIntermediateNode stmtSeq;
 
     public LoopNode ()
     {
-        super();
+        super("\"loop\" statement");
 
         cond = null;
         stmtSeq = null;
@@ -19,36 +19,34 @@ public class LoopNode extends AbstractParseTreeNode implements IIntermediateNode
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.WHILE)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "while", true);
+            Utils.throwUnexpTokenError(tokenizer, "while", true);
         tokenizer.skipToken();
 
         cond = new CondNode();
         cond.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.LOOP)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "loop", true);
+            Utils.throwUnexpTokenError(tokenizer, "loop", true);
         tokenizer.skipToken();
 
         stmtSeq = new StmtSeqNode();
         stmtSeq.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.END)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "end", true);
+            Utils.throwUnexpTokenError(tokenizer, "end", true);
         tokenizer.skipToken();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
-    }
 
-    public void execute ()
-    {
-        while (cond.eval())
-            stmtSeq.execute();
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("while ");
         cond.print();
@@ -58,5 +56,13 @@ public class LoopNode extends AbstractParseTreeNode implements IIntermediateNode
         Utils.prettyPrintDecreaseIndent();
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("end;\n");
+    }
+
+    public void execute ()
+    {
+        super.execute();
+
+        while (cond.evaluate())
+            stmtSeq.execute();
     }
 }

@@ -1,63 +1,80 @@
 package parsetree.mathnodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IMathNode;
 import parsetree.Utils;
+import parsetree.miscnodes.IdNode;
 
-public class OpNode extends AbstractParseTreeNode implements IMathNode
+public class OpNode extends ErrorCheckingNode implements IMathNode
 {
-    private IMathNode child;
+    private IdNode id;
+    private IMathNode mathNode;
 
     public OpNode ()
     {
-        super();
+        super("expression");
 
-        child = null;
+        id = null;
+        mathNode = null;
     }
 
     public void parse ()
     {
-        switch (Utils.getToken(tokenizer.getToken()))
+        Utils.Token firstToken = Utils.getToken(tokenizer.getToken());
+
+        switch (firstToken)
         {
             case INTEGER:
-                child = new UnsignedInt();
+                mathNode = new IntNode();
                 break;
             case IDENTIFIER:
-                child = new Identifier();
+                id = IdNode.parse();
                 break;
             case PARENTHESELEFT:
                 tokenizer.skipToken();
-                child = new ExpNode();
+                mathNode = new ExpNode();
                 break;
             default:
-                Utils.throwUnexpTokenError(tokenizer.tokenVal(), "expression", false);
+                Utils.throwUnexpTokenError(tokenizer, "expression", false);
                 break;
         }
 
-        child.parse();
+        if (mathNode != null)
+            mathNode.parse();
 
-        if (child instanceof ExpNode)
+        if (firstToken == Utils.Token.PARENTHESELEFT)
         {
             if (Utils.getToken(tokenizer.getToken()) != Utils.Token.PARENTHESERIGHT)
-                Utils.throwUnexpTokenError(tokenizer.tokenVal(), ")", true);
+                Utils.throwUnexpTokenError(tokenizer, ")", true);
             tokenizer.skipToken();
         }
-    }
 
-    public int eval ()
-    {
-        return child.eval();
+        super.parse();
     }
 
     public void print ()
     {
-        if (child instanceof ExpNode)
+        super.print();
+
+        if (id != null)
+            id.print();
+        else if (mathNode instanceof ExpNode)
         {
             Utils.prettyPrintWrite("(");
-            child.print();
+            mathNode.print();
             Utils.prettyPrintWrite(")");
         }
         else
-            child.print();
+            mathNode.print();
+    }
+
+    public int evaluate()
+    {
+        super.execute();
+
+        if (id != null)
+            return id.eval();
+        else
+            return mathNode.evaluate();
     }
 }

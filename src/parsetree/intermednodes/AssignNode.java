@@ -2,16 +2,16 @@ package parsetree.intermednodes;
 
 import parsetree.*;
 import parsetree.mathnodes.ExpNode;
-import parsetree.mathnodes.Identifier;
+import parsetree.miscnodes.IdNode;
 
-public class AssignNode extends AbstractParseTreeNode implements IIntermediateNode
+public class AssignNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    private Identifier id;
+    private IdNode id;
     private IMathNode exp;
 
     AssignNode ()
     {
-        super();
+        super("\"assignment\" statement");
 
         id = null;
         exp = null;
@@ -19,26 +19,26 @@ public class AssignNode extends AbstractParseTreeNode implements IIntermediateNo
 
     public void parse ()
     {
-        if (Utils.getToken(tokenizer.getToken()) != Utils.Token.IDENTIFIER)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "identifier", false);
-
-        id = new Identifier();
-        id.parse();
+        id = IdNode.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.ASSIGN)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "=", true);
+            Utils.throwUnexpTokenError(tokenizer, "=", true);
         tokenizer.skipToken();
 
         exp = new ExpNode();
         exp.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
+
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintIndent();
         id.print();
         Utils.prettyPrintWrite(" = ");
@@ -48,6 +48,8 @@ public class AssignNode extends AbstractParseTreeNode implements IIntermediateNo
 
     public void execute ()
     {
-        id.setValue(exp.eval());
+        super.execute();
+
+        id.setValue(exp.evaluate());
     }
 }

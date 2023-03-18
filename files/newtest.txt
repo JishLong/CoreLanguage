@@ -4,10 +4,11 @@ int A, B;
 
 begin
 
-read A, B;
+A = 0;
+B = 5;
 
-if (B == 2) then
-    write A;
+if (B > A) then
+    write B;
 end;
 
 end

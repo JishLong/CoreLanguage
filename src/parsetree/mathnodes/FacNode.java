@@ -1,19 +1,18 @@
 package parsetree.mathnodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IMathNode;
 import parsetree.Utils;
 
-public class FacNode extends AbstractParseTreeNode implements IMathNode
+public class FacNode extends ErrorCheckingNode implements IMathNode
 {
     private IMathNode op, fac;
 
     public FacNode ()
     {
-        super();
+        super("expression");
 
-        op = null;
-        fac = null;
+        op = fac = null;
     }
 
     public void parse ()
@@ -27,24 +26,29 @@ public class FacNode extends AbstractParseTreeNode implements IMathNode
             fac = new FacNode();
             fac.parse();
         }
-    }
 
-    public int eval ()
-    {
-        int retVal = op.eval();
-        if (fac != null)
-            retVal *= fac.eval();
-
-        return retVal;
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         op.print();
         if (fac != null)
         {
             Utils.prettyPrintWrite(" * ");
             fac.print();
         }
+    }
+
+    public int evaluate()
+    {
+        super.execute();
+
+        int retVal = op.evaluate();
+        if (fac != null)
+            retVal *= fac.evaluate();
+        return retVal;
     }
 }

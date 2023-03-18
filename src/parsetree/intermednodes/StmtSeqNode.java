@@ -1,19 +1,18 @@
 package parsetree.intermednodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
 import parsetree.Utils;
 
-public class StmtSeqNode extends AbstractParseTreeNode implements IIntermediateNode
+public class StmtSeqNode extends ErrorCheckingNode implements IIntermediateNode
 {
     private IIntermediateNode stmt, stmtSeq;
 
-    StmtSeqNode ()
+    public StmtSeqNode ()
     {
-        super();
+        super("statement");
 
-        stmt = null;
-        stmtSeq = null;
+        stmt = stmtSeq = null;
     }
 
     public void parse ()
@@ -28,10 +27,14 @@ public class StmtSeqNode extends AbstractParseTreeNode implements IIntermediateN
             stmtSeq = new StmtSeqNode();
             stmtSeq.parse();
         }
+
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         stmt.print();
         if (stmtSeq != null)
             stmtSeq.print();
@@ -39,6 +42,8 @@ public class StmtSeqNode extends AbstractParseTreeNode implements IIntermediateN
 
     public void execute ()
     {
+        super.execute();
+
         stmt.execute();
         if (stmtSeq != null)
             stmtSeq.execute();

@@ -1,21 +1,20 @@
 package parsetree.intermednodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
-import parsetree.IdentifierList;
+import parsetree.miscnodes.IdListNode;
 import parsetree.Utils;
-import parsetree.mathnodes.Identifier;
-
+import parsetree.miscnodes.IdNode;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class InNode extends AbstractParseTreeNode implements IIntermediateNode
+public class InNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    IdentifierList idList;
+    private IdListNode idList;
 
     public InNode ()
     {
-        super();
+        super("\"in\" statement");
 
         idList = null;
     }
@@ -23,29 +22,43 @@ public class InNode extends AbstractParseTreeNode implements IIntermediateNode
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.READ)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "read", true);
+            Utils.throwUnexpTokenError(tokenizer, "read", true);
         tokenizer.skipToken();
 
-        idList = new IdentifierList();
+        idList = new IdListNode();
         idList.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
+
+        super.parse();
+    }
+
+    public void print ()
+    {
+        super.print();
+
+        Utils.prettyPrintIndent();
+        Utils.prettyPrintWrite("read ");
+        idList.print();
+        Utils.prettyPrintWrite(";\n");
     }
 
     public void execute ()
     {
+        super.execute();
+
         try
         {
             if (dataFileReader == null)
             {
                 dataFileReader = new BufferedReader(new FileReader(dataFileName));
                 if (!dataFileReader.ready())
-                    Utils.throwCustomError("Error: data file empty");
+                    Utils.throwCustomError("Execution error: data file empty when attempting read");
             }
 
-            for (Identifier i : idList.getIdentifiers())
+            for (IdNode i : idList.getIdentifiers())
             {
                 int newValue = Integer.parseInt(dataFileReader.readLine());
                 i.setValue(newValue);
@@ -53,15 +66,7 @@ public class InNode extends AbstractParseTreeNode implements IIntermediateNode
         }
         catch (Exception e)
         {
-            Utils.throwCustomError("Error reading from data file");
+            Utils.throwCustomError("Execution error reading from data file");
         }
-    }
-
-    public void print ()
-    {
-        Utils.prettyPrintIndent();
-        Utils.prettyPrintWrite("read ");
-        idList.print();
-        Utils.prettyPrintWrite(";\n");
     }
 }

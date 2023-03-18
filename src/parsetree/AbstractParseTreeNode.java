@@ -1,10 +1,10 @@
 package parsetree;
 
 import tokenizer.Tokenizer;
-
 import java.io.BufferedReader;
 
-public abstract class AbstractParseTreeNode implements IParseTreeNode
+// The root class for every parse tree node; contains a tokenizer and data file that all nodes have access to
+public abstract class AbstractParseTreeNode
 {
     protected static Tokenizer tokenizer;
     protected static String dataFileName;

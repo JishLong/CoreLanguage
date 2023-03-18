@@ -3,31 +3,30 @@ package parsetree.intermednodes;
 import parsetree.*;
 import parsetree.boolnodes.CondNode;
 
-public class IfNode extends AbstractParseTreeNode implements IIntermediateNode
+public class IfNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    private IBoolNode cond;
+    private ILogicNode cond;
     private IIntermediateNode stmtSeq1, stmtSeq2;
 
     public IfNode ()
     {
-        super();
+        super("\"if\" statement");
 
         cond = null;
-        stmtSeq1 = null;
-        stmtSeq2 = null;
+        stmtSeq1 = stmtSeq2 = null;
     }
 
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.IF)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "if", true);
+            Utils.throwUnexpTokenError(tokenizer, "if", true);
         tokenizer.skipToken();
 
         cond = new CondNode();
         cond.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.THEN)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "then", true);
+            Utils.throwUnexpTokenError(tokenizer, "then", true);
         tokenizer.skipToken();
 
         stmtSeq1 = new StmtSeqNode();
@@ -41,24 +40,20 @@ public class IfNode extends AbstractParseTreeNode implements IIntermediateNode
         }
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.END)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "end", true);
+            Utils.throwUnexpTokenError(tokenizer, "end", true);
         tokenizer.skipToken();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
-    }
 
-    public void execute ()
-    {
-        if (cond.eval())
-            stmtSeq1.execute();
-        else if (stmtSeq2 != null)
-            stmtSeq2.execute();
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("if ");
         cond.print();
@@ -76,5 +71,15 @@ public class IfNode extends AbstractParseTreeNode implements IIntermediateNode
         }
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("end;\n");
+    }
+
+    public void execute ()
+    {
+        super.execute();
+
+        if (cond.evaluate())
+            stmtSeq1.execute();
+        else if (stmtSeq2 != null)
+            stmtSeq2.execute();
     }
 }

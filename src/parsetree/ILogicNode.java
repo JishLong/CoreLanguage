@@ -1,10 +1,10 @@
 package parsetree;
 
-public interface IIntermediateNode
+public interface ILogicNode
 {
     void parse();
 
     void print();
 
-    void execute();
+    boolean evaluate();
 }

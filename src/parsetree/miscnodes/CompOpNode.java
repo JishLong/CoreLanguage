@@ -1,33 +1,37 @@
-package parsetree;
+package parsetree.miscnodes;
 
-public class ComparisonOperator extends AbstractParseTreeNode
+import parsetree.ErrorCheckingNode;
+import parsetree.Utils;
+import static parsetree.Utils.Token.*;
+
+public class CompOpNode extends ErrorCheckingNode
 {
-    private Utils.Token alternative;
+    private Utils.Token operator;
 
-    public ComparisonOperator ()
+    public CompOpNode()
     {
-        super();
-
-        alternative = null;
+        super("comparison operator");
+        operator = null;
     }
 
     public void parse ()
     {
         Utils.Token currentToken = Utils.getToken(tokenizer.getToken());
-
-        if (currentToken == Utils.Token.NOTEQUALS || currentToken == Utils.Token.EQUALS ||
-                currentToken == Utils.Token.LESSTHAN || currentToken == Utils.Token.GREATERTHAN ||
-                currentToken == Utils.Token.LESSTHANEQUALS || currentToken == Utils.Token.GREATERTHANEQUALS)
-            alternative = currentToken;
+        if (currentToken == NOTEQUALS || currentToken == EQUALS ||
+                currentToken == LESSTHAN || currentToken == GREATERTHAN ||
+                currentToken == LESSTHANEQUALS || currentToken == GREATERTHANEQUALS)
+            operator = currentToken;
         else
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "comparison operator", false);
-
+            Utils.throwUnexpTokenError(tokenizer, nodeName, false);
         tokenizer.skipToken();
+
+        super.parse();
     }
 
     public void print ()
     {
-        switch (alternative)
+        super.print();
+        switch (operator)
         {
             case NOTEQUALS:
                 Utils.prettyPrintWrite("!=");
@@ -54,6 +58,7 @@ public class ComparisonOperator extends AbstractParseTreeNode
 
     public Utils.Token getOperator ()
     {
-        return alternative;
+        super.execute();
+        return operator;
     }
 }

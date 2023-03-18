@@ -1,18 +1,18 @@
 package parsetree.intermednodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
-import parsetree.IdentifierList;
+import parsetree.miscnodes.IdListNode;
 import parsetree.Utils;
-import parsetree.mathnodes.Identifier;
+import parsetree.miscnodes.IdNode;
 
-public class OutNode extends AbstractParseTreeNode implements IIntermediateNode
+public class OutNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    IdentifierList idList;
+    private IdListNode idList;
 
     public OutNode ()
     {
-        super();
+        super("\"out\" statement");
 
         idList = null;
     }
@@ -20,28 +20,34 @@ public class OutNode extends AbstractParseTreeNode implements IIntermediateNode
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.WRITE)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "write", true);
+            Utils.throwUnexpTokenError(tokenizer, "write", true);
         tokenizer.skipToken();
 
-        idList = new IdentifierList();
+        idList = new IdListNode();
         idList.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
-    }
 
-    public void execute ()
-    {
-        for (Identifier i : idList.getIdentifiers())
-            System.out.println(i.getName()+": "+i.eval());
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("write ");
         idList.print();
         Utils.prettyPrintWrite(";\n");
+    }
+
+    public void execute ()
+    {
+        super.execute();
+
+        for (IdNode i : idList.getIdentifiers())
+            System.out.println(i.getName()+": "+i.eval());
     }
 }

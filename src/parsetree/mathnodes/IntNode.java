@@ -1,35 +1,38 @@
 package parsetree.mathnodes;
 
-import parsetree.AbstractParseTreeNode;
+import parsetree.ErrorCheckingNode;
 import parsetree.IMathNode;
 import parsetree.Utils;
 
-public class UnsignedInt extends AbstractParseTreeNode implements IMathNode
+public class IntNode extends ErrorCheckingNode implements IMathNode
 {
     private int value;
 
-    public UnsignedInt ()
+    public IntNode()
     {
-        super();
+        super("unsigned integer");
+        value = 0;
     }
 
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.INTEGER)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "unsigned integer", false);
-
+            Utils.throwUnexpTokenError(tokenizer, nodeName, false);
         value = tokenizer.intVal();
-
         tokenizer.skipToken();
-    }
 
-    public int eval ()
-    {
-        return value;
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
         Utils.prettyPrintWrite(""+value);
+    }
+
+    public int evaluate()
+    {
+        super.execute();
+        return value;
     }
 }

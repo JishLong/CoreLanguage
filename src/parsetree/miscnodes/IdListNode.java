@@ -1,18 +1,19 @@
-package parsetree;
+package parsetree.miscnodes;
 
-import parsetree.mathnodes.Identifier;
+import parsetree.ErrorCheckingNode;
+import parsetree.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IdentifierList extends AbstractParseTreeNode
+public class IdListNode extends ErrorCheckingNode
 {
-    private Identifier id;
-    private IdentifierList idList;
+    private IdNode id;
+    private IdListNode idList;
 
-    public IdentifierList ()
+    public IdListNode()
     {
-        super();
+        super("identifier list");
 
         id = null;
         idList = null;
@@ -20,19 +21,22 @@ public class IdentifierList extends AbstractParseTreeNode
 
     public void parse ()
     {
-        id = new Identifier();
-        id.parse();
+        id = IdNode.parse();
 
         if (Utils.getToken(tokenizer.getToken()) == Utils.Token.COMMA)
         {
             tokenizer.skipToken();
-            idList = new IdentifierList();
+            idList = new IdListNode();
             idList.parse();
         }
+
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         id.print();
         if (idList != null)
         {
@@ -41,10 +45,11 @@ public class IdentifierList extends AbstractParseTreeNode
         }
     }
 
-    public List<Identifier> getIdentifiers ()
+    public List<IdNode> getIdentifiers ()
     {
-        List<Identifier> identifiers;
+        super.execute();
 
+        List<IdNode> identifiers;
         if (idList != null)
         {
             identifiers = idList.getIdentifiers();
@@ -55,7 +60,6 @@ public class IdentifierList extends AbstractParseTreeNode
             identifiers = new ArrayList<>();
             identifiers.add(id);
         }
-
         return identifiers;
     }
 }

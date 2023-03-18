@@ -17,6 +17,8 @@ public class Tokenizer
     private ArrayList<String> tokenValues;
     // The index the tokenizer is set to for external users - aligns with both the token identifers and values
     private int index;
+    // The line of user code that is currently being processed - useful for crafting helpful error messages
+    private int lineNum;
 
     public Tokenizer(String fileName)
     {
@@ -26,6 +28,7 @@ public class Tokenizer
             tokenIdentifiers = new ArrayList<>();
             tokenValues = new ArrayList<>();
             index = 0;
+            lineNum = 0;
 
             // We want to read lines until we get one that actually contains tokens
             while (tokenIdentifiers.isEmpty())
@@ -44,12 +47,6 @@ public class Tokenizer
         int tokenIdentifier = 33;
         if (!tokenIdentifiers.isEmpty())
             tokenIdentifier = tokenIdentifiers.get(index);
-
-        // If we have an error token, we'll print a helpful error message
-        if (tokenIdentifier == 34)
-        {
-            System.out.println("Error: \""+tokenValues.get(index)+"\" is not a token");
-        }
 
         return tokenIdentifier;
     }
@@ -124,6 +121,12 @@ public class Tokenizer
         return "";
     }
 
+    // Returns the number of the current line being processed
+    public int lineNum ()
+    {
+        return lineNum;
+    }
+
     // Converts the contents of one file line into a list of tokens in the Core language
     private void tokenizeLine ()
     {
@@ -135,6 +138,7 @@ public class Tokenizer
             if (fileReader.ready())
             {
                 line = fileReader.readLine();
+                lineNum++;
             }
             else
             {

@@ -1,14 +1,15 @@
 package parsetree.intermednodes;
 
 import parsetree.*;
+import parsetree.miscnodes.IdListNode;
 
-public class DeclNode extends AbstractParseTreeNode implements IIntermediateNode
+public class DeclNode extends ErrorCheckingNode implements IIntermediateNode
 {
-    private IdentifierList idList;
+    private IdListNode idList;
 
-    DeclNode ()
+    public DeclNode ()
     {
-        super();
+        super("variable declaration");
 
         idList = null;
     }
@@ -16,19 +17,23 @@ public class DeclNode extends AbstractParseTreeNode implements IIntermediateNode
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.INT)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "int", true);
+            Utils.throwUnexpTokenError(tokenizer, "int", true);
         tokenizer.skipToken();
 
-        idList = new IdentifierList();
+        idList = new IdListNode();
         idList.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ";", true);
+            Utils.throwUnexpTokenError(tokenizer, ";", true);
         tokenizer.skipToken();
+
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintIndent();
         Utils.prettyPrintWrite("int ");
         idList.print();
@@ -37,6 +42,6 @@ public class DeclNode extends AbstractParseTreeNode implements IIntermediateNode
 
     public void execute ()
     {
-        // Nothing here :)
+        super.execute();
     }
 }

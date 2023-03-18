@@ -2,15 +2,16 @@ package parsetree.boolnodes;
 
 import parsetree.*;
 import parsetree.mathnodes.OpNode;
+import parsetree.miscnodes.CompOpNode;
 
-public class CompNode extends AbstractParseTreeNode implements IBoolNode
+public class CompNode extends ErrorCheckingNode implements ILogicNode
 {
-    IMathNode op1, op2;
-    ComparisonOperator compOp;
+    private IMathNode op1, op2;
+    private CompOpNode compOp;
 
     public CompNode ()
     {
-        super();
+        super("boolean comparison");
 
         op1 = null;
         op2 = null;
@@ -20,44 +21,29 @@ public class CompNode extends AbstractParseTreeNode implements IBoolNode
     public void parse ()
     {
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.PARENTHESELEFT)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), "(", true);
+            Utils.throwUnexpTokenError(tokenizer, "(", true);
         tokenizer.skipToken();
 
         op1 = new OpNode();
         op1.parse();
 
-        compOp = new ComparisonOperator();
+        compOp = new CompOpNode();
         compOp.parse();
 
         op2 = new OpNode();
         op2.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.PARENTHESERIGHT)
-            Utils.throwUnexpTokenError(tokenizer.tokenVal(), ")", true);
+            Utils.throwUnexpTokenError(tokenizer, ")", true);
         tokenizer.skipToken();
-    }
 
-    public boolean eval ()
-    {
-        switch (compOp.getOperator())
-        {
-            case NOTEQUALS:
-                return op1.eval() != op2.eval();
-            case EQUALS:
-                return op1.eval() == op2.eval();
-            case LESSTHAN:
-                return op1.eval() < op2.eval();
-            case GREATERTHAN:
-                return op1.eval() > op2.eval();
-            case LESSTHANEQUALS:
-                return op1.eval() <= op2.eval();
-            default:
-                return op1.eval() >= op2.eval();
-        }
+        super.parse();
     }
 
     public void print ()
     {
+        super.print();
+
         Utils.prettyPrintWrite("(");
         op1.print();
         Utils.prettyPrintWrite(" ");
@@ -65,5 +51,28 @@ public class CompNode extends AbstractParseTreeNode implements IBoolNode
         Utils.prettyPrintWrite(" ");
         op2.print();
         Utils.prettyPrintWrite(")");
+    }
+
+    public boolean evaluate()
+    {
+        super.execute();
+
+        switch (compOp.getOperator())
+        {
+            case NOTEQUALS:
+                return op1.evaluate() != op2.evaluate();
+            case EQUALS:
+                return op1.evaluate() == op2.evaluate();
+            case LESSTHAN:
+                return op1.evaluate() < op2.evaluate();
+            case GREATERTHAN:
+                return op1.evaluate() > op2.evaluate();
+            case LESSTHANEQUALS:
+                return op1.evaluate() <= op2.evaluate();
+            case GREATERTHANEQUALS:
+                return op1.evaluate() >= op2.evaluate();
+            default:
+                return false;
+        }
     }
 }
