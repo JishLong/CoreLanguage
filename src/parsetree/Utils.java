@@ -21,9 +21,7 @@ public class Utils
     {
         token--;
         if (token >= 0 && token < tokens.length - 1)
-        {
             return tokens[token];
-        }
         return Token.ERROR;
     }
 
@@ -48,6 +46,7 @@ public class Utils
         else
             System.err.println("Parsing error at line "+t.lineNum()+": "+tokenClassification+" token \""+t.tokenVal()+"\"");
 
+        t.close();
         System.exit(1);
     }
 
@@ -55,6 +54,7 @@ public class Utils
     public static void throwUndecIdError (Tokenizer t, String id)
     {
         System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has not been declared");
+        t.close();
         System.exit(1);
     }
 
@@ -62,6 +62,7 @@ public class Utils
     public static void throwExistIdError (Tokenizer t, String id)
     {
         System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has already been declared");
+        t.close();
         System.exit(1);
     }
 
@@ -69,13 +70,15 @@ public class Utils
     public static void throwUninitIdError (Tokenizer t, String id)
     {
         System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has not been initialized");
+        t.close();
         System.exit(1);
     }
 
     // Prints an error message consisting of only the string [errorMessage]
-    public static void throwCustomError (String errorMessage)
+    public static void throwCustomError (Tokenizer t, String errorMessage)
     {
         System.err.println(errorMessage);
+        t.close();
         System.exit(1);
     }
 

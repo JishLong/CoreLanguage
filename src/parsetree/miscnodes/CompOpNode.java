@@ -8,7 +8,7 @@ public class CompOpNode extends ErrorCheckingNode
 {
     private Utils.Token operator;
 
-    public CompOpNode()
+    public CompOpNode ()
     {
         super("comparison operator");
         operator = null;
@@ -31,6 +31,7 @@ public class CompOpNode extends ErrorCheckingNode
     public void print ()
     {
         super.print();
+
         switch (operator)
         {
             case NOTEQUALS:
@@ -48,10 +49,8 @@ public class CompOpNode extends ErrorCheckingNode
             case LESSTHANEQUALS:
                 Utils.prettyPrintWrite("<=");
                 break;
-            case GREATERTHANEQUALS:
-                Utils.prettyPrintWrite(">=");
-                break;
             default:
+                Utils.prettyPrintWrite(">=");
                 break;
         }
     }
@@ -59,6 +58,7 @@ public class CompOpNode extends ErrorCheckingNode
     public Utils.Token getOperator ()
     {
         super.execute();
+
         return operator;
     }
 }

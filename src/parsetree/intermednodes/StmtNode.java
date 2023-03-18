@@ -34,6 +34,7 @@ public class StmtNode extends ErrorCheckingNode implements IIntermediateNode
             case WRITE:
                 actualStatement = new OutNode();
                 break;
+            // Error is checked here to avoid a too-specific error being thrown in the child nodes
             default:
                 Utils.throwUnexpTokenError(tokenizer, null, false);
         }

@@ -55,18 +55,18 @@ public class InNode extends ErrorCheckingNode implements IIntermediateNode
             {
                 dataFileReader = new BufferedReader(new FileReader(dataFileName));
                 if (!dataFileReader.ready())
-                    Utils.throwCustomError("Execution error: data file empty when attempting read");
+                    Utils.throwCustomError(tokenizer, "Execution error: data file empty when attempting read");
             }
 
-            for (IdNode i : idList.getIdentifiers())
+            for (IdNode id : idList.getIdentifiers())
             {
                 int newValue = Integer.parseInt(dataFileReader.readLine());
-                i.setValue(newValue);
+                id.setValue(newValue);
             }
         }
         catch (Exception e)
         {
-            Utils.throwCustomError("Execution error reading from data file");
+            Utils.throwCustomError(tokenizer, "Execution error reading from data file");
         }
     }
 }

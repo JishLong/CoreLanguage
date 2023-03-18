@@ -48,7 +48,7 @@ public class ExpNode extends ErrorCheckingNode implements IMathNode
         }
     }
 
-    public int evaluate()
+    public int evaluate ()
     {
         super.execute();
 

@@ -127,6 +127,16 @@ public class Tokenizer
         return lineNum;
     }
 
+    // Closes the buffered reader
+    public void close ()
+    {
+        try
+        {
+            fileReader.close();
+        }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+
     // Converts the contents of one file line into a list of tokens in the Core language
     private void tokenizeLine ()
     {

@@ -11,7 +11,7 @@ public class IdListNode extends ErrorCheckingNode
     private IdNode id;
     private IdListNode idList;
 
-    public IdListNode()
+    public IdListNode ()
     {
         super("identifier list");
 
@@ -45,6 +45,7 @@ public class IdListNode extends ErrorCheckingNode
         }
     }
 
+    // Returns a list of all the identifiers this identifier list "contains"
     public List<IdNode> getIdentifiers ()
     {
         super.execute();

@@ -42,6 +42,8 @@ public class ProgNode extends ErrorCheckingNode implements IIntermediateNode
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.EOF)
             Utils.throwUnexpTokenError(tokenizer, null, false);
 
+        tokenizer.close();
+
         super.parse();
     }
 
@@ -69,5 +71,12 @@ public class ProgNode extends ErrorCheckingNode implements IIntermediateNode
 
         declSeq.execute();
         stmtSeq.execute();
+
+        try
+        {
+            if (dataFileReader != null)
+                dataFileReader.close();
+        }
+        catch (Exception e) { Utils.throwCustomError(tokenizer, "Execution error closing data file"); }
     }
 }

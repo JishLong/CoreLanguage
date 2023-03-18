@@ -42,7 +42,7 @@ public class FacNode extends ErrorCheckingNode implements IMathNode
         }
     }
 
-    public int evaluate()
+    public int evaluate ()
     {
         super.execute();
 

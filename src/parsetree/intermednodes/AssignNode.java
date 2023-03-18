@@ -9,7 +9,7 @@ public class AssignNode extends ErrorCheckingNode implements IIntermediateNode
     private IdNode id;
     private IMathNode exp;
 
-    AssignNode ()
+    public AssignNode ()
     {
         super("\"assignment\" statement");
 

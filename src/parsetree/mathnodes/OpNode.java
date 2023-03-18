@@ -68,12 +68,12 @@ public class OpNode extends ErrorCheckingNode implements IMathNode
             mathNode.print();
     }
 
-    public int evaluate()
+    public int evaluate ()
     {
         super.execute();
 
         if (id != null)
-            return id.eval();
+            return id.evaluate();
         else
             return mathNode.evaluate();
     }

@@ -53,7 +53,7 @@ public class CompNode extends ErrorCheckingNode implements ILogicNode
         Utils.prettyPrintWrite(")");
     }
 
-    public boolean evaluate()
+    public boolean evaluate ()
     {
         super.execute();
 
@@ -69,10 +69,8 @@ public class CompNode extends ErrorCheckingNode implements ILogicNode
                 return op1.evaluate() > op2.evaluate();
             case LESSTHANEQUALS:
                 return op1.evaluate() <= op2.evaluate();
-            case GREATERTHANEQUALS:
-                return op1.evaluate() >= op2.evaluate();
             default:
-                return false;
+                return op1.evaluate() >= op2.evaluate();
         }
     }
 }

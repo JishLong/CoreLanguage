@@ -8,7 +8,7 @@ public class IntNode extends ErrorCheckingNode implements IMathNode
 {
     private int value;
 
-    public IntNode()
+    public IntNode ()
     {
         super("unsigned integer");
         value = 0;
@@ -30,7 +30,7 @@ public class IntNode extends ErrorCheckingNode implements IMathNode
         Utils.prettyPrintWrite(""+value);
     }
 
-    public int evaluate()
+    public int evaluate ()
     {
         super.execute();
         return value;

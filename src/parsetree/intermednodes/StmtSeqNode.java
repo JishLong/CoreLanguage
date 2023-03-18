@@ -22,6 +22,7 @@ public class StmtSeqNode extends ErrorCheckingNode implements IIntermediateNode
 
         Utils.Token currentToken = Utils.getToken(tokenizer.getToken());
 
+        // The only two tokens that can follow a statement are [else] and [end]
         if (currentToken != Utils.Token.ELSE && currentToken != Utils.Token.END)
         {
             stmtSeq = new StmtSeqNode();

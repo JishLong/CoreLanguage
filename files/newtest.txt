@@ -1,14 +1,15 @@
 program
 
-int A, B;
+int A, B, C, D, E;
 
 begin
 
 A = 0;
-B = 5;
+B = 1;
+C=9;
+D=9;
+E=1;
 
-if (B > A) then
-    write B;
-end;
+write A, B, C, D, E;
 
 end

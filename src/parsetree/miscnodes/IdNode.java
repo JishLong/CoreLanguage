@@ -16,7 +16,7 @@ public class IdNode extends AbstractParseTreeNode
     private int value;
     private boolean initialized;
 
-    private IdNode(String name)
+    private IdNode (String name)
     {
         super();
         this.name = name;
@@ -50,14 +50,14 @@ public class IdNode extends AbstractParseTreeNode
         return newId;
     }
 
-    public void print()
+    public void print ()
     {
         // No error checking here since if an identifier is instantiated it must be parsed correctly
 
         Utils.prettyPrintWrite(name);
     }
 
-    public int eval ()
+    public int evaluate ()
     {
         // No error checking here since if an identifier is instantiated it must be parsed correctly
 

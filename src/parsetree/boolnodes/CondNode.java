@@ -75,7 +75,7 @@ public class CondNode extends ErrorCheckingNode implements ILogicNode
         }
     }
 
-    public boolean evaluate()
+    public boolean evaluate ()
     {
         super.execute();
 

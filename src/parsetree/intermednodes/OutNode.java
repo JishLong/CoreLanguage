@@ -47,7 +47,7 @@ public class OutNode extends ErrorCheckingNode implements IIntermediateNode
     {
         super.execute();
 
-        for (IdNode i : idList.getIdentifiers())
-            System.out.println(i.getName()+": "+i.eval());
+        for (IdNode id : idList.getIdentifiers())
+            System.out.println(id.getName()+": "+id.evaluate());
     }
 }
