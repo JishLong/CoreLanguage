@@ -36,7 +36,7 @@ public class StmtNode extends ErrorCheckingNode implements IIntermediateNode
                 break;
             // Error is checked here to avoid a too-specific error being thrown in the child nodes
             default:
-                Utils.throwUnexpTokenError(tokenizer, null, false);
+                Utils.throwUnexpTokenError(tokenizer, nodeName, false);
         }
 
         actualStatement.parse();

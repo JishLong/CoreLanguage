@@ -27,7 +27,7 @@ public class ProgNode extends ErrorCheckingNode implements IIntermediateNode
         declSeq.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.BEGIN)
-            Utils.throwUnexpTokenError(tokenizer, "begin", true);
+            Utils.throwUnexpTokenError(tokenizer, "\"int\" or \"begin\"", false);
         tokenizer.skipToken();
 
         IdNode.setDeclaringMode(false);
@@ -36,7 +36,7 @@ public class ProgNode extends ErrorCheckingNode implements IIntermediateNode
         stmtSeq.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.END)
-            Utils.throwUnexpTokenError(tokenizer, "end", true);
+            Utils.throwUnexpTokenError(tokenizer, "another statement or \"end\"", false);
         tokenizer.skipToken();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.EOF)
@@ -77,6 +77,6 @@ public class ProgNode extends ErrorCheckingNode implements IIntermediateNode
             if (dataFileReader != null)
                 dataFileReader.close();
         }
-        catch (Exception e) { Utils.throwCustomError(tokenizer, "Execution error closing data file"); }
+        catch (Exception e) { Utils.throwCustomError(tokenizer, "Execution error closing data file."); }
     }
 }

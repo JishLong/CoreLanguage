@@ -32,12 +32,12 @@ public abstract class ErrorCheckingNode extends AbstractParseTreeNode
     protected void print ()
     {
         if (!isParsed)
-            Utils.throwCustomError(tokenizer, "Pretty printing error: incomplete parsing of "+nodeName);
+            Utils.throwCustomError(tokenizer, "Pretty printing error: incomplete parsing of "+nodeName+".");
     }
 
     protected void execute ()
     {
         if (!isParsed)
-            Utils.throwCustomError(tokenizer, "Execution error: incomplete parsing of "+nodeName);
+            Utils.throwCustomError(tokenizer, "Execution error: incomplete parsing of "+nodeName+".");
     }
 }

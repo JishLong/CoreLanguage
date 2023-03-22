@@ -10,7 +10,10 @@ public class Program
         checkCommandLineParams(args);
         Tokenizer tokenizer = new Tokenizer(args[0]);
 
-        IIntermediateNode rootNode = new ProgNode(tokenizer, args[1]);
+        String dataFileName = null;
+        if (args.length > 1)
+            dataFileName = args[1];
+        IIntermediateNode rootNode = new ProgNode(tokenizer, dataFileName);
         rootNode.parse();
 
         System.out.println("PRINTING:\n");

@@ -1,15 +1,9 @@
 program
 
-int A, B, C, D, E;
+int A;
 
 begin
 
-A = 0;
-B = 1;
-C=9;
-D=9;
-E=1;
-
-write A, B, C, D, E;
+A=5;
 
 end

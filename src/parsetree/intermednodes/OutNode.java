@@ -27,7 +27,7 @@ public class OutNode extends ErrorCheckingNode implements IIntermediateNode
         idList.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer, ";", true);
+            Utils.throwUnexpTokenError(tokenizer, "\",\" or \";\"", false);
         tokenizer.skipToken();
 
         super.parse();

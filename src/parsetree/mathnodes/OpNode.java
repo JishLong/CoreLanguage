@@ -35,7 +35,7 @@ public class OpNode extends ErrorCheckingNode implements IMathNode
                 mathNode = new ExpNode();
                 break;
             default:
-                Utils.throwUnexpTokenError(tokenizer, "expression", false);
+                Utils.throwUnexpTokenError(tokenizer, nodeName, false);
                 break;
         }
 
@@ -45,7 +45,7 @@ public class OpNode extends ErrorCheckingNode implements IMathNode
         if (firstToken == Utils.Token.PARENTHESELEFT)
         {
             if (Utils.getToken(tokenizer.getToken()) != Utils.Token.PARENTHESERIGHT)
-                Utils.throwUnexpTokenError(tokenizer, ")", true);
+                Utils.throwUnexpTokenError(tokenizer, "continued expression or \")\"", false);
             tokenizer.skipToken();
         }
 

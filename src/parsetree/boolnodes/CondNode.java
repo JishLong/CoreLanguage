@@ -26,7 +26,7 @@ public class CondNode extends ErrorCheckingNode implements ILogicNode
         {
             Utils.Token firstToken = Utils.getToken(tokenizer.getToken());
             if (firstToken != Utils.Token.EXCLAMATION && firstToken != Utils.Token.SQUARELEFT)
-                Utils.throwUnexpTokenError(tokenizer, null, false);
+                Utils.throwUnexpTokenError(tokenizer, nodeName, false);
             tokenizer.skipToken();
 
             cond1 = new CondNode();

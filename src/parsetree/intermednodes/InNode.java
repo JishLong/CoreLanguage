@@ -29,7 +29,7 @@ public class InNode extends ErrorCheckingNode implements IIntermediateNode
         idList.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer, ";", true);
+            Utils.throwUnexpTokenError(tokenizer, "\",\" or \";\"", false);
         tokenizer.skipToken();
 
         super.parse();
@@ -51,11 +51,14 @@ public class InNode extends ErrorCheckingNode implements IIntermediateNode
 
         try
         {
+            if (dataFileName == null)
+                Utils.throwCustomError(tokenizer, "Execution error: data file not specified.");
+
             if (dataFileReader == null)
             {
                 dataFileReader = new BufferedReader(new FileReader(dataFileName));
                 if (!dataFileReader.ready())
-                    Utils.throwCustomError(tokenizer, "Execution error: data file empty when attempting read");
+                    Utils.throwCustomError(tokenizer, "Execution error: data file empty when attempting read.");
             }
 
             for (IdNode id : idList.getIdentifiers())
@@ -66,7 +69,7 @@ public class InNode extends ErrorCheckingNode implements IIntermediateNode
         }
         catch (Exception e)
         {
-            Utils.throwCustomError(tokenizer, "Execution error reading from data file");
+            Utils.throwCustomError(tokenizer, "Execution error reading from data file.");
         }
     }
 }

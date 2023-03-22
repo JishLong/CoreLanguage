@@ -33,7 +33,7 @@ public class LoopNode extends ErrorCheckingNode implements IIntermediateNode
         stmtSeq.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.END)
-            Utils.throwUnexpTokenError(tokenizer, "end", true);
+            Utils.throwUnexpTokenError(tokenizer, "another statement or \"end\"", false);
         tokenizer.skipToken();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)

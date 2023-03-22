@@ -28,32 +28,33 @@ public class Utils
     // Prints an error message for an unexpected token and exits the program
     public static void throwUnexpTokenError (Tokenizer t, String expToken, boolean useQuotesForExpToken)
     {
-        String tokenClassification;
-        if (getToken(t.getToken()) == Token.ERROR)
-            tokenClassification = "unknown";
+        Token currentToken = getToken(t.getToken());
+        String errorMessage = "Parsing error at line "+t.lineNum()+": ";
+
+        if (currentToken == Token.EOF)
+            errorMessage += "end of file reached with missing tokens.";
+        else if (currentToken == Token.ERROR)
+            errorMessage += "unknown token \""+t.tokenVal()+"\".";
         else
-            tokenClassification = "unexpected";
+            errorMessage += "unexpected token \""+t.tokenVal()+"\".";
 
         if (expToken != null)
         {
             if (useQuotesForExpToken)
-                System.err.println("Parsing error at line "+t.lineNum()+": "+tokenClassification+" token \""+t.tokenVal()+"\". " +
-                        "Expected \""+expToken+"\"");
+                errorMessage += " Expected \""+expToken+"\".";
             else
-                System.err.println("Parsing error at line "+t.lineNum()+": "+tokenClassification+" token \""+t.tokenVal()+"\". " +
-                        "Expected "+expToken);
+                errorMessage += " Expected "+expToken+".";
         }
-        else
-            System.err.println("Parsing error at line "+t.lineNum()+": "+tokenClassification+" token \""+t.tokenVal()+"\"");
 
         t.close();
+        System.err.println(errorMessage);
         System.exit(1);
     }
 
     // Prints an error message for an undeclared identifier and exits the program
     public static void throwUndecIdError (Tokenizer t, String id)
     {
-        System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has not been declared");
+        System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has not been declared.");
         t.close();
         System.exit(1);
     }
@@ -61,7 +62,7 @@ public class Utils
     // Prints an error message for a duplicated declared identifier and exits the program
     public static void throwExistIdError (Tokenizer t, String id)
     {
-        System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has already been declared");
+        System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has already been declared.");
         t.close();
         System.exit(1);
     }
@@ -69,7 +70,7 @@ public class Utils
     // Prints an error message for an uninitialized identifier and exits the program
     public static void throwUninitIdError (Tokenizer t, String id)
     {
-        System.err.println("Parsing error at line "+t.lineNum()+": identifier \""+id+"\" has not been initialized");
+        System.err.println("Execution error: identifier \""+id+"\" has not been initialized.");
         t.close();
         System.exit(1);
     }
