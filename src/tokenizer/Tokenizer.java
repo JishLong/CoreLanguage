@@ -124,6 +124,9 @@ public class Tokenizer
     // Returns the number of the current line being processed
     public int lineNum ()
     {
+        // If [lineNum] is 0, then the file is empty; however, we are still technically on the first line
+        if (lineNum == 0)
+            return 1;
         return lineNum;
     }
 
@@ -147,11 +150,12 @@ public class Tokenizer
         try {
             if (fileReader.ready())
             {
-                line = fileReader.readLine();
                 lineNum++;
+                line = fileReader.readLine();
             }
             else
             {
+
                 tokenIdentifiers.add(33);
                 fileReader.close();
                 return;

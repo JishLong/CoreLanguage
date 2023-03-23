@@ -8,37 +8,19 @@ public class Program
     public static void main (String[] args)
     {
         checkCommandLineParams(args);
-        Tokenizer tokenizer = new Tokenizer(args[0]);
 
+        Tokenizer tokenizer = new Tokenizer(args[0]);
         String dataFileName = null;
         if (args.length > 1)
             dataFileName = args[1];
         IIntermediateNode rootNode = new ProgNode(tokenizer, dataFileName);
+
         rootNode.parse();
-
-        System.out.println("PRINTING:\n");
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\nPRINTING:\n");
         rootNode.print();
-        System.out.println("\n\nEXECUTION:\n");
+        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\nEXECUTION:\n");
         rootNode.execute();
-
-        /*int tokenIdentifier;
-
-        do
-        {
-            if (tokenizer == null)
-                tokenizer = new Tokenizer(args[0]);
-            else
-                tokenizer.skipToken();
-
-            tokenIdentifier = tokenizer.getToken();
-
-            // If the token is one of the normal 1 - 32 tokens or 33 (EOF), we want to print it
-            if (tokenIdentifier > 0 && tokenIdentifier < 34)
-                System.out.println(tokenIdentifier);
-
-        }
-        // Tokens 1 - 32 mean we aren't done yet
-        while (tokenIdentifier > 0 && tokenIdentifier < 33);*/
+        System.out.println("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     }
 
     // Does a quick check of the command line parameters to make sure they are satisfactory

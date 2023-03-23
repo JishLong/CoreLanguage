@@ -1,9 +1,15 @@
 program
 
 int A;
+int B;
 
 begin
 
-A=5;
+A = 1;
+B = 2;
+B = A * B;
 
+
+write A;
+write B;
 end

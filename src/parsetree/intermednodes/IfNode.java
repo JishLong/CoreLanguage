@@ -32,7 +32,8 @@ public class IfNode extends ErrorCheckingNode implements IIntermediateNode
         stmtSeq1 = new StmtSeqNode();
         stmtSeq1.parse();
 
-        if (Utils.getToken(tokenizer.getToken()) == Utils.Token.EOF)
+        Utils.Token currentToken = Utils.getToken(tokenizer.getToken());
+        if (currentToken != Utils.Token.ELSE && currentToken != Utils.Token.END)
             Utils.throwUnexpTokenError(tokenizer, "another statement, \"else\", or \"end\"", false);
 
         if (Utils.getToken(tokenizer.getToken()) == Utils.Token.ELSE)

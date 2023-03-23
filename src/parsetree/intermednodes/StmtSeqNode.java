@@ -4,7 +4,7 @@ import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
 import parsetree.Utils;
 
-import static parsetree.Utils.Token.EOF;
+import static parsetree.Utils.Token.*;
 
 public class StmtSeqNode extends ErrorCheckingNode implements IIntermediateNode
 {
@@ -25,10 +25,14 @@ public class StmtSeqNode extends ErrorCheckingNode implements IIntermediateNode
         Utils.Token currentToken = Utils.getToken(tokenizer.getToken());
 
         // The only two tokens that can follow a statement are [else] and [end]
-        if (currentToken != Utils.Token.ELSE && currentToken != Utils.Token.END && Utils.getToken(tokenizer.getToken()) != EOF)
+        if (currentToken != Utils.Token.ELSE && currentToken != Utils.Token.END)
         {
-            stmtSeq = new StmtSeqNode();
-            stmtSeq.parse();
+            if (currentToken == IDENTIFIER || currentToken == IF || currentToken == WHILE ||
+                currentToken == READ || currentToken == WRITE)
+            {
+                stmtSeq = new StmtSeqNode();
+                stmtSeq.parse();
+            }
         }
 
         super.parse();

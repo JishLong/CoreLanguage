@@ -29,7 +29,7 @@ public class AssignNode extends ErrorCheckingNode implements IIntermediateNode
         exp.parse();
 
         if (Utils.getToken(tokenizer.getToken()) != Utils.Token.SEMICOLON)
-            Utils.throwUnexpTokenError(tokenizer, ";", true);
+            Utils.throwUnexpTokenError(tokenizer, "continued expression or \";\"", false);
         tokenizer.skipToken();
 
         super.parse();

@@ -3,8 +3,8 @@ package parsetree.intermednodes;
 import parsetree.ErrorCheckingNode;
 import parsetree.IIntermediateNode;
 import parsetree.Utils;
-import static parsetree.Utils.Token.BEGIN;
-import static parsetree.Utils.Token.EOF;
+
+import static parsetree.Utils.Token.*;
 
 public class DeclSeqNode extends ErrorCheckingNode implements IIntermediateNode
 {
@@ -22,8 +22,10 @@ public class DeclSeqNode extends ErrorCheckingNode implements IIntermediateNode
         decl = new DeclNode();
         decl.parse();
 
-        if (Utils.getToken(tokenizer.getToken()) != BEGIN && Utils.getToken(tokenizer.getToken()) != EOF)
+        if (Utils.getToken(tokenizer.getToken()) != BEGIN)
         {
+            if (Utils.getToken(tokenizer.getToken()) != INT)
+                Utils.throwUnexpTokenError(tokenizer, "\"int\" or \"begin\"", false);
             declSeq = new DeclSeqNode();
             declSeq.parse();
         }
